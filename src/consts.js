@@ -13,7 +13,6 @@ export const AUTHOR = {
   github: 'https://github.com/varadTheDeveloper',
   x: 'https://x.com/opentestudox',
   xHandle: '@opentestudox',
-  linkedin: 'https://www.linkedin.com/in/varad-modhekar-07820025a/',
 };
 
 // The Forge runtime's source code.
