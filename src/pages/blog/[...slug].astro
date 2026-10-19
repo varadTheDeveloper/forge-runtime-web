@@ -1,0 +1,76 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getPosts, formatDate } from '../../lib/posts.js';
+import { url, absoluteUrl } from '../../lib/url.js';
+import { AUTHOR } from '../../consts.js';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({ params: { slug: post.id }, props: { post, newer: posts[i - 1], older: posts[i + 1] } }));
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const { title, description, date, updated, tags, author } = post.data;
+const pageUrl = absoluteUrl(`blog/${post.id}/`, Astro.site);
+const image = `og/blog/${post.id}.png`;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description,
+    datePublished: date.toISOString(),
+    dateModified: (updated ?? date).toISOString(),
+    author: { '@type': 'Person', name: author, url: AUTHOR.github },
+    image: absoluteUrl(image, Astro.site),
+    mainEntityOfPage: pageUrl,
+    keywords: tags.join(', '),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'The Forge Project', item: absoluteUrl('', Astro.site) },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: absoluteUrl('blog/', Astro.site) },
+      { '@type': 'ListItem', position: 3, name: title, item: pageUrl },
+    ],
+  },
+];
+---
+<Base
+  title={title}
+  description={description}
+  type="article"
+  image={image}
+  imageAlt={title}
+  publishedTime={date.toISOString()}
+  modifiedTime={(updated ?? date).toISOString()}
+  jsonLd={jsonLd}
+  noindex={post.data.draft}
+  markdown={`blog/${post.id}.md`}
+>
+
+<p><a href={url()}>The Forge Project</a> / <a href={url('blog/')}>Blog</a></p>
+
+<h1>{title}</h1>
+
+<p><i>By {author}, {formatDate(date)}{updated && `. Updated ${formatDate(updated)}`}.</i></p>
+
+<Content />
+
+<hr>
+
+{tags.length > 0 && <p>Tags: {tags.join(', ')}.</p>}
+<p>
+{older && <Fragment>Previous: <a href={url(`blog/${older.id}/`)}>{older.data.title}</a><br></Fragment>}
+{newer && <Fragment>Next: <a href={url(`blog/${newer.id}/`)}>{newer.data.title}</a><br></Fragment>}
+<a href={url('blog/')}>All posts</a> · <a href={url('rss.xml')}>RSS</a> · <a href={url(`blog/${post.id}.md`)}>This post as Markdown</a>
+</p>
+
+<address>
+Written by <a href={AUTHOR.github}>{AUTHOR.name}</a>. <a href={url()}>Back to the Forge Project</a>.
+</address>
+
+</Base>

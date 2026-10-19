@@ -1,0 +1,31 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { AUTHOR, WEB_REPO } from '../consts.js';
+import { url } from '../lib/url.js';
+
+// Rendered straight from the repo's Manifesto.md.
+const entry = await getEntry('pages', 'manifesto');
+const { Content } = await render(entry);
+const description = 'Why Forge exists, why it is built from scratch on SpiderMonkey, and why it is a lifetime commitment. By Varad Modhekar.';
+---
+<Base
+  title="Manifesto"
+  description={description}
+  image="og/manifesto.png"
+  type="article"
+  markdown="manifesto.md"
+  jsonLd={{ '@context': 'https://schema.org', '@type': 'Article', headline: 'The Forge Manifesto', description, author: { '@type': 'Person', name: AUTHOR.name, url: AUTHOR.github } }}
+>
+
+<p><a href={url()}>The Forge Project</a> / Manifesto</p>
+
+<Content />
+
+<hr>
+
+<address>
+<a href={`${WEB_REPO}/blob/main/Manifesto.md`}>Manifesto.md on GitHub</a>. <a href={url()}>Back to the Forge Project</a>.
+</address>
+
+</Base>

@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts, formatDate } from '../../lib/posts.js';
+import { url, absoluteUrl } from '../../lib/url.js';
+import { AUTHOR } from '../../consts.js';
+
+const posts = await getPosts();
+const description = 'Notes from building Forge, a JavaScript runtime written from scratch on SpiderMonkey.';
+---
+<Base
+  title="Blog"
+  description={description}
+  image="og/blog.png"
+  markdown="blog/index.md"
+  jsonLd={{ '@context': 'https://schema.org', '@type': 'Blog', name: 'Forge blog', url: absoluteUrl('blog/', Astro.site), description }}
+>
+
+<p><a href={url()}>The Forge Project</a> / Blog</p>
+
+<h1>Forge blog</h1>
+
+<p>{description} Subscribe with <a href={url('rss.xml')}>RSS</a>.</p>
+
+<hr>
+
+{posts.length === 0 ? <p>No posts yet.</p> : (
+  <dl>
+    {posts.map((p) => (
+      <Fragment>
+        <dt><a href={url(`blog/${p.id}/`)}>{p.data.title}</a>{p.data.draft && ' (draft)'}</dt>
+        <dd>{formatDate(p.data.date)}. {p.data.description}</dd>
+      </Fragment>
+    ))}
+  </dl>
+)}
+
+<hr>
+
+<address>
+Written by <a href={AUTHOR.github}>{AUTHOR.name}</a>. <a href={url()}>Back to the Forge Project</a>.
+</address>
+
+</Base>

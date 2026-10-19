@@ -1,0 +1,51 @@
+---
+// Everything search engines and social networks read about a page.
+import { SITE, AUTHOR } from '../consts.js';
+import { absoluteUrl } from '../lib/url.js';
+
+const {
+  title,
+  fullTitle: fullTitleProp,
+  description = SITE.description,
+  image = 'og/home.png',
+  imageAlt = 'Forge — JavaScript, armored.',
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  jsonLd = [],
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = fullTitleProp || (title ? `${title} — ${SITE.name}` : SITE.title);
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const imageUrl = absoluteUrl(image, Astro.site);
+const ld = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+---
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex" />}
+<meta name="author" content={AUTHOR.name} />
+
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+{publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={AUTHOR.xHandle} />
+<meta name="twitter:creator" content={AUTHOR.xHandle} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+{ld.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}

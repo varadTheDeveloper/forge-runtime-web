@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url.js';
+---
+<Base title="Not found" description="This page does not exist." noindex>
+
+<h1>Not found</h1>
+
+<p>The page you asked for does not exist, or it has moved.</p>
+
+<p>Go to <a href={url()}>the Forge Project</a>.</p>
+
+</Base>

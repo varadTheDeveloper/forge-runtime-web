@@ -1,0 +1,154 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, AUTHOR, REPO } from '../consts.js';
+import { url, absoluteUrl } from '../lib/url.js';
+import { getPosts, formatDate } from '../lib/posts.js';
+import * as c from '../lib/content.js';
+
+const news = (await getPosts()).slice(0, 5);
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: 'The Forge Project', url: absoluteUrl('', Astro.site), description: SITE.description },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareSourceCode',
+    name: 'Forge',
+    description: SITE.description,
+    codeRepository: REPO,
+    programmingLanguage: ['C++', 'JavaScript'],
+    runtimePlatform: 'Windows x64',
+    license: 'https://opensource.org/licenses/MIT',
+    author: { '@type': 'Person', name: AUTHOR.name, url: AUTHOR.github },
+  },
+  { '@context': 'https://schema.org', '@type': 'Person', name: AUTHOR.name, url: AUTHOR.github, sameAs: [AUTHOR.github, AUTHOR.x, AUTHOR.linkedin] },
+];
+---
+<Base title="The Forge Project" fullTitle="The Forge Project: a JavaScript runtime built from scratch on SpiderMonkey" jsonLd={jsonLd} markdown="index.md">
+
+<img src={url('logo.svg')} alt="Forge logo" width="96" height="96" align="left" hspace="12">
+
+<h1>Forge</h1>
+
+{c.intro.map((p) => <p set:html={c.inline(p)} />)}
+
+<br clear="left">
+<hr>
+
+<dl>
+<dt><a href="#what">What is Forge?</a></dt>
+<dd>A summary of the project and why it exists.</dd>
+<dt><a href="#kavach">Kavach</a></dt>
+<dd>How Forge is designed to keep packages from stealing from you.</dd>
+<dt><a href="#progress">Current progress</a></dt>
+<dd>What already works.</dd>
+<dt><a href="#running">Running Forge</a></dt>
+<dd>How to run your first script.</dd>
+<dt><a href="#benchmarks">Benchmarks</a></dt>
+<dd>How Forge compares with Bun and Node.</dd>
+<dt><a href="#roadmap">Roadmap</a></dt>
+<dd>Where the project is going next.</dd>
+<dt><a href={url('blog/')}>Blog</a></dt>
+<dd>Notes from building Forge. Also available as <a href={url('rss.xml')}>RSS</a>.</dd>
+<dt><a href={url('manifesto/')}>Manifesto</a></dt>
+<dd>Why Forge exists, and why it is built this way.</dd>
+<dt><a href={REPO}>Source code</a></dt>
+<dd>The repository on GitHub.</dd>
+<dt><a href={url('llms.txt')}>For AI agents</a></dt>
+<dd>A plain-text summary of Forge for AI agents and language models. Every page is also available as <a href={url('index.md')}>Markdown</a>.</dd>
+</dl>
+
+<hr>
+
+<h2 id="what">What is Forge?</h2>
+
+{c.whatIs.map((p) => <p set:html={c.inline(p)} />)}
+
+<p>Read the full <a href={url('manifesto/')}>Manifesto</a>.</p>
+
+<h2 id="kavach">Kavach</h2>
+
+<p><i>{c.kavach.status}</i></p>
+
+<p set:html={c.inline(c.kavach.text)} />
+
+<ul>
+{c.kavach.points.map((p) => <li set:html={c.inline(p)} />)}
+</ul>
+
+<p>A package's manifest would look like this:</p>
+
+<pre>{c.kavach.manifest}</pre>
+
+<h2 id="progress">Current progress</h2>
+
+<ul>
+{c.progress.map((p) => <li set:html={c.inline(p)} />)}
+</ul>
+
+<p>{c.platform}</p>
+
+<h2 id="running">Running Forge</h2>
+
+<p>Create a file called <code>hello.js</code>:</p>
+
+<pre>{c.running.file}</pre>
+
+<p>Run it:</p>
+
+<pre>{c.running.run}</pre>
+
+<p>Forge is currently built from source on Windows. See the <a href={`${REPO}#readme`}>README</a> for build instructions.</p>
+
+<h2 id="benchmarks">Benchmarks</h2>
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr><th>Benchmark</th><th>Forge</th><th>Bun</th><th>Node</th><th>Winner</th></tr>
+{c.bench.map((r) => {
+  const w = c.winner(r);
+  return (
+    <tr>
+      <td>{r.name}</td>
+      <td align="right">{w === 'Forge' ? <b>{c.ms(r.forge)}</b> : c.ms(r.forge)}</td>
+      <td align="right">{w === 'Bun' ? <b>{c.ms(r.bun)}</b> : c.ms(r.bun)}</td>
+      <td align="right">{w === 'Node' ? <b>{c.ms(r.node)}</b> : c.ms(r.node)}</td>
+      <td>{w}</td>
+    </tr>
+  );
+})}
+</table>
+
+<p>
+Lower is better. Median of 5 runs per script on one Windows machine ({c.benchDate}).
+See the full <a href={`${REPO}/blob/main/Forge_Benchmark_Report.md`}>benchmark report</a>.
+</p>
+
+<h2 id="roadmap">Roadmap</h2>
+
+<ol>
+{c.roadmap.map((p) => <li set:html={c.inline(p)} />)}
+</ol>
+
+<p>See the complete <a href={`${REPO}/blob/main/ROADMAP.md`}>roadmap</a>.</p>
+
+{news.length > 0 && (
+  <Fragment>
+    <h2 id="news">News</h2>
+    <ul>
+      {news.map((p) => (
+        <li><a href={url(`blog/${p.id}/`)}>{p.data.title}</a> ({formatDate(p.data.date)})</li>
+      ))}
+    </ul>
+    <p>All posts are on the <a href={url('blog/')}>blog</a>.</p>
+  </Fragment>
+)}
+
+<hr>
+
+<address>
+Forge is built by{' '}
+<a href={AUTHOR.github}>{AUTHOR.name}</a> (<a href={AUTHOR.x}>X</a>, <a href={AUTHOR.linkedin}>LinkedIn</a>).
+Released under the{' '}
+<a href={`${REPO}/blob/main/LICENSE`}>MIT License</a>.
+</address>
+
+</Base>

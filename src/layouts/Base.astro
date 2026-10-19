@@ -1,0 +1,25 @@
+---
+// Plain HTML in the spirit of the first website (1991): no CSS, no JavaScript.
+// Everything for search engines and AI agents lives invisibly in <head>.
+import Seo from '../components/Seo.astro';
+import { url } from '../lib/url.js';
+
+const { markdown, ...props } = Astro.props; // markdown: path of this page's .md version
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<Seo {...props} />
+<link rel="icon" href={url('favicon.svg')} type="image/svg+xml">
+<link rel="icon" href={url('favicon-32.png')} sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href={url('apple-touch-icon.png')}>
+<link rel="alternate" type="application/rss+xml" title="Forge blog" href={url('rss.xml')}>
+{markdown && <link rel="alternate" type="text/markdown" title="This page as Markdown" href={url(markdown)}>}
+<link rel="help" type="text/plain" title="Summary for AI agents" href={url('llms.txt')}>
+</head>
+<body>
+<slot />
+</body>
+</html>

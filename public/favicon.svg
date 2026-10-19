@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>Forge</title>
+  <defs>
+    <linearGradient id="steel" x1="0" y1="56" x2="0" y2="456" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C9D0D9"/>
+      <stop offset="0.45" stop-color="#939CA8"/>
+      <stop offset="1" stop-color="#5A6370"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="url(#steel)" stroke-width="64" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M150 56 C112 56 100 76 100 114 L100 204 C100 236 88 252 54 256 C88 260 100 276 100 308 L100 398 C100 436 112 456 150 456"/>
+    <path d="M362 56 C400 56 412 76 412 114 L412 204 C412 236 424 252 458 256 C424 260 412 276 412 308 L412 398 C412 436 400 456 362 456"/>
+  </g>
+  <g fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" transform="translate(-9 -6)">
+    <path d="M146 64 C108 64 96 84 96 122 L96 206"/>
+    <path d="M366 64 C404 64 416 84 416 122 L416 206"/>
+  </g>
+  <g transform="translate(256 262) scale(0.6 0.7) translate(-256 -257)">
+  <!-- base silhouette underneath so anti-aliased facet seams never show the background -->
+  <polygon fill="#D93B1C" points="288,18 334,136 390,70 404,196 436,318 388,440 256,496 124,440 76,318 112,196 146,92 206,170"/>
+  <!-- facets, all meeting at the knot K=(258,300); light from upper right -->
+  <polygon fill="#B5281A" points="146,92 206,170 258,300 112,196"/>
+  <polygon fill="#C9321A" points="112,196 258,300 76,318"/>
+  <polygon fill="#DA3F1C" points="76,318 258,300 124,440"/>
+  <polygon fill="#E9521F" points="124,440 258,300 256,496"/>
+  <polygon fill="#E0431D" points="206,170 288,18 258,300"/>
+  <polygon fill="#F5621F" points="288,18 334,136 258,300"/>
+  <polygon fill="#FB7122" points="334,136 390,70 404,196 258,300"/>
+  <polygon fill="#FF8426" points="404,196 436,318 258,300"/>
+  <polygon fill="#FF962B" points="436,318 388,440 258,300"/>
+  <polygon fill="#FFA834" points="388,440 256,496 258,300"/>
+  <!-- gem-cut core -->
+  <polygon fill="#FFC84E" points="258,232 258,446 206,362"/>
+  <polygon fill="#FFDD7C" points="258,232 310,362 258,446"/></g>
+</svg>
