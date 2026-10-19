@@ -20,7 +20,7 @@ const jsonLd = [
     license: 'https://opensource.org/licenses/MIT',
     author: { '@type': 'Person', name: AUTHOR.name, url: AUTHOR.github },
   },
-  { '@context': 'https://schema.org', '@type': 'Person', name: AUTHOR.name, url: AUTHOR.github, sameAs: [AUTHOR.github, AUTHOR.x, AUTHOR.linkedin] },
+  { '@context': 'https://schema.org', '@type': 'Person', name: AUTHOR.name, url: AUTHOR.github, sameAs: [AUTHOR.github, AUTHOR.x] },
 ];
 ---
 <Base title="The Forge Project" fullTitle="The Forge Project: a JavaScript runtime built from scratch on SpiderMonkey" jsonLd={jsonLd} markdown="index.md">
@@ -146,7 +146,7 @@ See the full <a href={`${REPO}/blob/main/Forge_Benchmark_Report.md`}>benchmark r
 
 <address>
 Forge is built by{' '}
-<a href={AUTHOR.github}>{AUTHOR.name}</a> (<a href={AUTHOR.x}>X</a>, <a href={AUTHOR.linkedin}>LinkedIn</a>).
+<a href={AUTHOR.github}>{AUTHOR.name}</a> (<a href={AUTHOR.x}>X</a>).
 Released under the{' '}
 <a href={`${REPO}/blob/main/LICENSE`}>MIT License</a>.
 </address>
