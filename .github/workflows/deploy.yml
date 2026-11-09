@@ -39,9 +39,11 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Build
+        # Pinned to the custom domain so links, canonical URLs and feeds never
+        # fall back to varadthedeveloper.github.io/forge-runtime-web/.
         env:
-          SITE_URL: ${{ steps.pages.outputs.origin }}
-          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          SITE_URL: https://forge.js.org
+          BASE_PATH: ""
         run: npm run build
 
       - uses: actions/upload-pages-artifact@v3

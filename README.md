@@ -2,7 +2,7 @@
 
 The website and blog of [Forge](https://github.com/varadTheDeveloper/forge-runtime), a JavaScript runtime built from scratch on SpiderMonkey. JavaScript, armored.
 
-**Live:** https://varadthedeveloper.github.io/forge-runtime-web/
+**Live:** https://forge.js.org/
 
 The site is plain HTML in the style of the first website (1991): no stylesheet, no JavaScript. It is built with [Astro](https://astro.build) only so the pages, SEO tags, and agent files are generated from one source.
 
@@ -25,7 +25,7 @@ Set `draft: true` to keep a post off the site. Files starting with `_` are never
 
 ```bash
 npm ci --ignore-scripts
-npm run dev       # http://localhost:4321/forge-runtime-web/
+npm run dev       # http://localhost:4321/
 npm run build     # output in dist/
 ```
 
